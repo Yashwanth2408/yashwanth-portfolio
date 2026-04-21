@@ -1,0 +1,6 @@
+node_modules/
+.env
+server.js
+.git/
+.cora/
+README.md
