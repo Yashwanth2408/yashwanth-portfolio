@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title> YASH | CLASSIFIED DOSSIER</title>
+  <meta name="description"
+    content="Yash — AI engineer, founder, builder. Agentic AI, voice systems, workflows, security, automation, and production-ready intelligent products." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/jarvis.css" />
+</head>
+
+<body>
+  <div class="jv-progress" aria-hidden="true">
+    <div class="jv-progress__fill" id="jv-progress-fill"></div>
+  </div>
+
+  <div class="jv-boot" id="jv-boot" aria-hidden="true">
+    <canvas class="jv-boot__canvas" id="jv-boot-canvas"></canvas>
+
+    <div class="jv-boot__panel">
+      <div class="jv-boot__arc-wrap">
+        <svg id="jv-arc-svg" class="jv-boot__arc-svg" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true">
+          <circle class="jv-boot__arc-track" cx="130" cy="130" r="118" />
+          <circle id="jv-arc-fill" class="jv-boot__arc-fill" cx="130" cy="130" r="118" stroke-dasharray="741"
+            stroke-dashoffset="741" />
+        </svg>
+        <img src="assets/yash.jpg" alt="Yashwanth" class="jv-boot__arc-logo-img" />
+      </div>
+
+      <div class="jv-boot__terminal">
+        <div class="jv-boot__lines" id="jv-boot-lines"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="jv-cursor" id="jv-cursor" aria-hidden="true">
+    <div class="jv-cursor__cross">
+      <span></span>
+      <span></span>
+    </div>
+    <div class="jv-cursor__ring"></div>
+  </div>
+
+  <header class="jv-header" id="jv-header">
+    <nav class="jv-nav" aria-label="Primary">
+      <div class="jv-nav__inner">
+        <a href="#top" class="jv-nav__brand" aria-label="Go to top">
+          <span class="jv-nav__brand-bracket">[</span>
+          <span class="jv-nav__brand-text">YASH</span>
+          <span class="jv-nav__brand-bracket">]</span>
+        </a>
+
+        <ul class="jv-nav__links" role="list">
+          <li><a class="jv-nav__link" data-nav href="#about">ABOUT</a></li>
+          <li><a class="jv-nav__link" data-nav href="#skills">SKILLS</a></li>
+          <li><a class="jv-nav__link" data-nav href="#projects">PROJECTS</a></li>
+          <li><a class="jv-nav__link" data-nav href="#experience">MISSION LOG</a></li>
+          <li><a class="jv-nav__link" data-nav href="#commendations">COMMENDATIONS</a></li>
+          <li><a class="jv-nav__link" data-nav href="#terminal">TERMINAL</a></li>
+          <li><a class="jv-nav__link" data-nav href="#contact">CONTACT</a></li>
+        </ul>
+
+        <div class="jv-nav__right">
+          <div class="jv-nav__status">
+            <span class="jv-status-dot"></span>
+            <span class="jv-mono jv-xs jv-dim">AVAILABLE</span>
+          </div>
+
+          <button class="jv-hamburger" id="jv-hamburger" aria-label="Toggle mobile navigation" aria-expanded="false"
+            aria-controls="jv-mobile-nav">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="jv-mobile-nav" id="jv-mobile-nav" aria-hidden="true">
+        <ul role="list">
+          <li><a class="jv-mobile-nav__link" href="#about">ABOUT</a></li>
+          <li><a class="jv-mobile-nav__link" href="#skills">SKILLS</a></li>
+          <li><a class="jv-mobile-nav__link" href="#projects">PROJECTS</a></li>
+          <li><a class="jv-mobile-nav__link" href="#experience">MISSION LOG</a></li>
+          <li><a class="jv-mobile-nav__link" href="#commendations">COMMENDATIONS</a></li>
+          <li><a class="jv-mobile-nav__link" href="#terminal">TERMINAL</a></li>
+          <li><a class="jv-mobile-nav__link" href="#contact">CONTACT</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="jv-hero" id="top">
+      <canvas class="jv-hero__canvas" id="jv-particle-canvas"></canvas>
+      <div class="jv-hero__grid" aria-hidden="true"></div>
+      <div class="jv-hero__scanline" aria-hidden="true"></div>
+
+      <div class="jv-hero__content">
+        <div class="jv-hero__briefing jv-reveal" data-delay="0">
+          <span class="jv-mono jv-xs jv-red">LIVE INTELLIGENCE FEED</span>
+          <div class="jv-mono jv-sm jv-dim" id="jv-hero-brief"></div>
+        </div>
+
+        <div class="jv-hero__kicker jv-reveal" data-delay="1">
+          <span class="jv-mono jv-xs">SUBJECT</span>
+          <span class="jv-hero__kicker-line"></span>
+        </div>
+
+        <h1 class="jv-hero__name jv-reveal" id="jv-hero-name" data-delay="2">
+          <span class="jv-hero__name-inner"></span>
+        </h1>
+
+        <div class="jv-hero__alias jv-reveal" data-delay="3">
+          <span class="jv-mono jv-sm">Yash</span>
+        </div>
+
+        <div class="jv-hero__role jv-reveal" data-delay="4">
+          <span class="jv-mono jv-sm">ROLE //</span>
+          <span id="jv-role-text"></span>
+          <span class="jv-hero__role-cursor">_</span>
+        </div>
+
+        <p class="jv-hero__summary jv-reveal" data-delay="5">
+          I build intelligent systems that are actually useful in the real world —
+          agentic AI products, voice interfaces, security tooling, automation pipelines,
+          and workflow-driven web experiences. Based in Chennai, working globally.
+        </p>
+
+        <div class="jv-hero__cta jv-reveal" data-delay="6">
+          <a href="#projects" class="jv-btn jv-btn--primary">
+            <span class="jv-btn__bracket">[</span>
+            VIEW MISSIONS
+            <span class="jv-btn__bracket">]</span>
+          </a>
+
+          <a href="#contact" class="jv-btn jv-btn--ghost">
+            <span class="jv-btn__bracket">[</span>
+            INITIATE CONTACT
+            <span class="jv-btn__bracket">]</span>
+          </a>
+
+          <a href="YashwanthBalaji_AIMl_Engineer.pdf" class="jv-btn jv-btn--ghost" download>
+            <span class="jv-btn__bracket">[</span>
+            DOWNLOAD RESUME
+            <span class="jv-btn__bracket">]</span>
+          </a>
+        </div>
+
+        <div class="jv-hero__meta jv-reveal" data-delay="7">
+          <div class="jv-hero__meta-item">
+            <span class="jv-mono jv-xs jv-dim">BASE</span>
+            <span class="jv-mono jv-sm">CHENNAI / INDIA</span>
+          </div>
+          <div class="jv-hero__meta-item">
+            <span class="jv-mono jv-xs jv-dim">FOCUS</span>
+            <span class="jv-mono jv-sm">AI CHATBOTS / WORKFLOWS / WEBSITES</span>
+          </div>
+          <div class="jv-hero__meta-item">
+            <span class="jv-mono jv-xs jv-dim">MODE</span>
+            <span class="jv-mono jv-sm">FOUNDER · BUILDER · ENGINEER</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="jv-ticker">
+        <div class="jv-ticker__track">
+          <div class="jv-ticker__inner">
+            <span>FOUNDER · LATENTFLOW.AI</span>
+            <span>AGENTIC AI SYSTEMS</span>
+            <span>VOICE AI · REAL-TIME PIPELINES</span>
+            <span>MULTI-AGENT ORCHESTRATION</span>
+            <span>WORKFLOWS · AUTOMATION · RAG</span>
+            <span>SECURITY TOOLING · SAST</span>
+            <span>CHATBOTS · WEBSITES · GLOBAL DELIVERY</span>
+            <span>FOUNDER · LATENTFLOW.AI</span>
+            <span>AGENTIC AI SYSTEMS</span>
+            <span>VOICE AI · REAL-TIME PIPELINES</span>
+            <span>MULTI-AGENT ORCHESTRATION</span>
+            <span>WORKFLOWS · AUTOMATION · RAG</span>
+            <span>SECURITY TOOLING · SAST</span>
+            <span>CHATBOTS · WEBSITES · GLOBAL DELIVERY</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="jv-section" id="about">
+      <div class="jv-container">
+        <div class="jv-section__jarvis-line jv-reveal" data-delay="0">
+          <span class="jv-mono jv-xs jv-dim">&gt; ACCESSING SUBJECT DOSSIER...</span>
+          <span class="jv-section__jarvis-quote jv-mono jv-xs jv-italic jv-dim">
+            "Builder mindset. Product instinct. Production discipline."
+          </span>
+        </div>
+
+        <h2 class="jv-section__title jv-reveal" data-delay="1">CLASSIFIED DOSSIER</h2>
+
+        <div class="jv-about__grid">
+          <div class="jv-about__left jv-reveal" data-delay="2">
+            <div class="jv-hex-frame">
+              <div class="jv-orbit" aria-hidden="true">
+                <div class="jv-orbit__ring"></div>
+                <div class="jv-orbit__badge" style="--i:0;">AI</div>
+                <div class="jv-orbit__badge" style="--i:1;">VOICE</div>
+                <div class="jv-orbit__badge" style="--i:2;">RAG</div>
+                <div class="jv-orbit__badge" style="--i:3;">SECURITY</div>
+                <div class="jv-orbit__badge" style="--i:4;">WORKFLOWS</div>
+                <div class="jv-orbit__badge" style="--i:5;">PRODUCT</div>
+              </div>
+
+              <div class="jv-hex-frame__inner">
+                <img src="assets/yash.jpg" alt="Yashwanth" />
+                <div class="jv-hex-frame__scanline"></div>
+              </div>
+            </div>
+
+            <div class="jv-about__stats">
+              <div class="jv-stat-block">
+                <div class="jv-stat-block__content">
+                  <span class="jv-stat-block__num" data-count="9">0</span>
+                  <span class="jv-stat-block__label">CORE PROJECTS</span>
+                </div>
+              </div>
+
+              <div class="jv-stat-block">
+                <div class="jv-stat-block__content">
+                  <span class="jv-stat-block__num" data-count="3">0</span>
+                  <span class="jv-stat-block__label">ORACLE CERTS</span>
+                </div>
+              </div>
+
+              <div class="jv-stat-block">
+                <div class="jv-stat-block__content">
+                  <span class="jv-stat-block__label">TOP 1%</span>
+                  <span class="jv-mono jv-xs jv-dim">HACKRX 5.0 / 6.0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="jv-about__right">
+            <div class="jv-dossier-card jv-reveal" data-delay="3">
+              <div class="jv-dossier-card__header">
+                <span class="jv-mono jv-xs jv-red">SUBJECT // Yash</span>
+                <span class="jv-mono jv-xs jv-dim">STATUS // ACTIVE</span>
+              </div>
+
+              <div class="jv-dossier-card__body">
+                <p>
+                  Yashwanth is not a conventional engineer. He builds AI systems,
+                  voice interfaces, workflow engines, secure developer tools, and
+                  product-like web experiences that are designed to be used — not
+                  just demonstrated.
+                </p>
+
+                <p>
+                  His work spans multi-agent orchestration with LangGraph, RAG and
+                  GraphRAG pipelines, voice AI with Whisper and Edge TTS, document
+                  intelligence, AI security scanning, full-stack product building,
+                  and workflow automation across business use cases.
+                </p>
+
+                <p>
+                  He is also the founder and builder of <strong>LatentFlow.ai</strong>,
+                  focused on making tech less complicated through AI chatbots,
+                  workflows, and websites, operating from Chennai for clients and
+                  collaborators globally.
+                </p>
+
+                <p>
+                  Outside pure software, he has served as the <strong>Vice Captain</strong>
+                  of <strong>Team E-Blitz Racing</strong>, an EV go-kart design team,
+                  which adds a real systems-and-speed layer to how he approaches engineering.
+                </p>
+
+                <div class="jv-dossier-card__closing">
+                  HE DOESN'T BUILD FOR DEMOS. HE BUILDS FOR DEPLOYMENT.
+                </div>
+              </div>
+
+              <div class="jv-dossier-card__fields">
+                <div class="jv-field-row">
+                  <span class="jv-field-row__key jv-mono jv-xs">CURRENT MISSION</span>
+                  <span class="jv-field-row__val">Founder / Builder at LatentFlow.ai</span>
+                </div>
+                <div class="jv-field-row">
+                  <span class="jv-field-row__key jv-mono jv-xs">EDUCATION</span>
+                  <span class="jv-field-row__val">B.Tech — Electronics and Communication Engineering, VIT Chennai</span>
+                </div>
+                <div class="jv-field-row">
+                  <span class="jv-field-row__key jv-mono jv-xs">COMMUNITIES</span>
+                  <span class="jv-field-row__val">Microsoft Azure Developer Community Member · GitHub Copilot Community
+                    India Member</span>
+                </div>
+                <div class="jv-field-row">
+                  <span class="jv-field-row__key jv-mono jv-xs">WORK STYLE</span>
+                  <span class="jv-field-row__val">Fast iteration · product-first execution · novel ideas in every
+                    build</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="jv-section jv-section--alt" id="skills">
+      <div class="jv-container">
+        <div class="jv-section__jarvis-line jv-reveal" data-delay="0">
+          <span class="jv-mono jv-xs jv-dim">&gt; TECH STACK INVENTORY READY.</span>
+          <span class="jv-section__jarvis-quote jv-mono jv-xs jv-italic jv-dim">
+            "Breadth is there. Depth is the differentiator."
+          </span>
+        </div>
+
+        <h2 class="jv-section__title jv-reveal" data-delay="1">TECHNICAL ARSENAL</h2>
+
+        <div class="jv-skills__grid">
+          <div class="jv-skill-cluster jv-reveal" data-delay="2">
+            <div class="jv-skill-cluster__label">AI / ML / DEEP LEARNING</div>
+            <div class="jv-hex-grid">
+              <div class="jv-hex"><span>PYTORCH</span></div>
+              <div class="jv-hex"><span>SCIKIT-LEARN</span></div>
+              <div class="jv-hex"><span>CNN</span></div>
+              <div class="jv-hex"><span>LSTM</span></div>
+              <div class="jv-hex"><span>GNN</span></div>
+              <div class="jv-hex"><span>MODEL EVAL</span></div>
+              <div class="jv-hex"><span>STREAMLIT</span></div>
+            </div>
+          </div>
+
+          <div class="jv-skill-cluster jv-reveal" data-delay="3">
+            <div class="jv-skill-cluster__label">LLMS / AGENTS / RAG</div>
+            <div class="jv-hex-grid">
+              <div class="jv-hex"><span>LANGCHAIN</span></div>
+              <div class="jv-hex"><span>LANGGRAPH</span></div>
+              <div class="jv-hex"><span>GPT-4O</span></div>
+              <div class="jv-hex"><span>LLAMA 3.2</span></div>
+              <div class="jv-hex"><span>GROQ</span></div>
+              <div class="jv-hex"><span>RAG</span></div>
+              <div class="jv-hex"><span>GRAPHRAG</span></div>
+              <div class="jv-hex"><span>PROMPT ENGINEERING</span></div>
+              <div class="jv-hex"><span>QUALITY SCORING</span></div>
+              <div class="jv-hex"><span>TOOL USE</span></div>
+            </div>
+          </div>
+
+          <div class="jv-skill-cluster jv-reveal" data-delay="4">
+            <div class="jv-skill-cluster__label">VOICE / MULTIMODAL / MEDIA</div>
+            <div class="jv-hex-grid">
+              <div class="jv-hex"><span>WHISPER</span></div>
+              <div class="jv-hex"><span>EDGE TTS</span></div>
+              <div class="jv-hex"><span>DEEPGRAM</span></div>
+              <div class="jv-hex"><span>CARTESIA</span></div>
+              <div class="jv-hex"><span>FFMPEG</span></div>
+              <div class="jv-hex"><span>WEBRTC</span></div>
+              <div class="jv-hex"><span>PIPECAT</span></div>
+              <div class="jv-hex"><span>SILERO VAD</span></div>
+              <div class="jv-hex"><span>STREAMING UI</span></div>
+            </div>
+          </div>
+
+          <div class="jv-skill-cluster jv-reveal" data-delay="5">
+            <div class="jv-skill-cluster__label">BACKEND / DATA / INFRA</div>
+            <div class="jv-hex-grid">
+              <div class="jv-hex"><span>PYTHON</span></div>
+              <div class="jv-hex"><span>FASTAPI</span></div>
+              <div class="jv-hex"><span>NODE.JS</span></div>
+              <div class="jv-hex"><span>EXPRESS</span></div>
+              <div class="jv-hex"><span>MONGODB</span></div>
+              <div class="jv-hex"><span>POSTGRESQL</span></div>
+              <div class="jv-hex"><span>SQLITE</span></div>
+              <div class="jv-hex"><span>PINECONE</span></div>
+              <div class="jv-hex"><span>DOCKER</span></div>
+              <div class="jv-hex"><span>AWS</span></div>
+              <div class="jv-hex"><span>RAILWAY</span></div>
+              <div class="jv-hex"><span>WEBSOCKETS</span></div>
+              <div class="jv-hex"><span>JWT</span></div>
+              <div class="jv-hex"><span>HMAC-SHA256</span></div>
+            </div>
+          </div>
+
+          <div class="jv-skill-cluster jv-reveal" data-delay="6">
+            <div class="jv-skill-cluster__label">FRONTEND / PRODUCT / AUTOMATION</div>
+            <div class="jv-hex-grid">
+              <div class="jv-hex"><span>HTML</span></div>
+              <div class="jv-hex"><span>CSS</span></div>
+              <div class="jv-hex"><span>JAVASCRIPT</span></div>
+              <div class="jv-hex"><span>REACT</span></div>
+              <div class="jv-hex"><span>REDUX TOOLKIT</span></div>
+              <div class="jv-hex"><span>TAILWIND</span></div>
+              <div class="jv-hex"><span>N8N</span></div>
+              <div class="jv-hex"><span>GOOGLE SHEETS API</span></div>
+              <div class="jv-hex"><span>GMAIL API</span></div>
+              <div class="jv-hex"><span>CI/CD</span></div>
+              <div class="jv-hex"><span>SEMGREP</span></div>
+              <div class="jv-hex"><span>BANDIT</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="jv-section" id="projects">
+      <div class="jv-container">
+        <div class="jv-section__jarvis-line jv-reveal" data-delay="0">
+          <span class="jv-mono jv-xs jv-dim">&gt; PRIORITY MISSIONS SORTED BY WEIGHTAGE.</span>
+          <span class="jv-section__jarvis-quote jv-mono jv-xs jv-italic jv-dim">
+            "Start with the strongest proof. Reveal the full field on demand."
+          </span>
+        </div>
+
+        <div class="jv-projects__head">
+          <h2 class="jv-section__title jv-reveal" data-delay="1">DEPLOYED OPERATIONS</h2>
+
+          <button class="jv-btn jv-btn--ghost jv-projects__toggle jv-reveal" id="jv-projects-toggle"
+            data-expanded="false" data-open-label="LOAD MORE PROJECTS" data-close-label="SHOW PRIORITY PROJECTS"
+            data-open-target="ALL PROJECTS LOADED" data-close-target="PRIORITY PROJECTS">
+            <span class="jv-btn__bracket">[</span>
+            LOAD MORE PROJECTS
+            <span class="jv-btn__bracket">]</span>
+          </button>
+        </div>
+
+        <div class="jv-ops__grid" id="jv-projects-grid">
+          <!-- Priority Projects -->
+          <article class="jv-op-card jv-op-card--feature jv-reveal" data-delay="2">
+            <div class="jv-op-card__top-edge"></div>
+            <div class="jv-op-card__scanline"></div>
+            <div class="jv-op-card__inner">
+              <div class="jv-op-card__header">
+                <span class="jv-mono jv-xs jv-dim">OP-01</span>
+                <span class="jv-op-badge">SHIPPED</span>
+              </div>
+
+              <h3 class="jv-op-card__name">IMARA</h3>
+
+              <div class="jv-op-card__fields">
+                <div class="jv-op-field">
+                  <span class="jv-op-field__k">CLASSIFICATION</span>
+                  <span class="jv-op-field__v">Intelligent Multi-Agent Research Assistant</span>
+                </div>
+                <div class="jv-op-field">
+                  <span class="jv-op-field__k">STACK</span>
+                  <span class="jv-op-field__v">React · FastAPI · LangGraph · Llama 3.2 · WebSockets · ArXiv</span>
+                </div>
+                <div class="jv-op-field">
+                  <span class="jv-op-field__k">MISSION</span>
+                  <span class="jv-op-field__v">
+                    A full-stack multi-agent AI system for academic research, adaptive routing,
+                    real-time agent collaboration, and research-to-code generation with a custom 4D
+                    quality scoring framework.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="jv-op-card jv-reveal" data-delay="3">
+            <div class="jv-op-card__top-edge"></div>
+            <div class="jv-op-card__scanline"></div>
+            <div class="jv-op-card__inner">
+              <div class="jv-op-card__header">
+                <span class="jv-mono jv-xs jv-dim">OP-02</span>
+                <span class="jv-op-badge">SHIPPED</span>
+              </div>
+
+              <h3 class="jv-op-card__name">NEUROCODE</h3>
+
+              <div class="jv-op-card__fields">
+                <div class="jv-op-field">
+                  <span class="jv-op-field__k">CLASSIFICATION</span>
+                  <span class="jv-op-field__v">Python Security Scanner / SAST</span>
+                </div>
+                <div class="jv-op-field">
+                  <span class="jv-op-field__k">STACK</span>
+                  <span class="jv-op-field__v">FastAPI · Semgrep · Bandit · Docker · Railway · Webhooks</span>
+                </div>
+                <div class="jv-op-field">
+                  <span class="jv-op-field__k">MISSION</span>
+                  <span class="jv-op-field__v">
+                    Production-ready SAST platform with deterministic scanning,
+                    sub-3-second analysis, CWE/CVE mapping, webhook security,
+                    REST API support, and CI/CD integration.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="jv-op-card jv-reveal" data-delay="4">
+            <div class="jv-op-card__top-edge"></div>
+            <div class="jv-op-card__scanline"></div>
+            <div class="jv-op-card__inner">
+              <div class="jv-op-card__header">
+                <span class="jv-mono jv-xs jv-dim">OP-03</span>
+                <span class="jv-op-badge">BUILDING</span>
+              </div>
+
+              <h3 class="jv-op-card__name">AUTOPROCURE</h3>
+
+              <div class="jv-op-card__fields">
+                <div class="jv-op-field">
+                  <span class="jv-op-field__k">CLASSIFICATION</span>
+                  <span class="jv-op-field__v">Autonomous Supply Chain Agent</span>
+                </div>
+                <div class="jv-op-field">
+                  <span class="jv-op-field__k">STACK</span>
+                  <span class="jv-op-field__v">Python · LangChain · LangGraph · Pinecone · Gmail API · FastAPI</span>
+                </div>
+                <div class="jv-op-field">
+                  <span class="jv-op-field__k">MISSION</span>
+                  <span class="jv-op-field__v">
+                    Agentic procurement orchestration that decomposes supplier-sourcing tasks,
+                    uses RAG memory for historical pricing, and keeps human approval in the loop
+                    before external action.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="jv-op-card jv-reveal" data-delay="5">
+            <div class="jv-op-card__top-edge"></div>
+            <div class="jv-op-card__scanline"></div>
+            <div class="jv-op-card__inner">
+              <div class="jv-op-card__header">
+                <span class="jv-mono jv-xs jv-dim">OP-04</span>
+                <span class="jv-op-badge">SHIPPED</span>
+              </div>
+
+              <h3 class="jv-op-card__name">SEI WISE VOICE AGENT</h3>
+
+              <div class="jv-op-card__fields">
+                <div class="jv-op-field">
+                  <span class="jv-op-field__k">CLASSIFICATION</span>
+                  <span class="jv-op-field__v">Real-Time Voice Support Agent</span>
+                </div>
+                <div class="jv-op-field">
+                  <span class="jv-op-field__k">STACK</span>
+                  <span class="jv-op-field__v">Pipecat · WebRTC · Deepgram · Groq · Cartesia · FastAPI</span>
+                </div>
+                <div class="jv-op-field">
+                  <span class="jv-op-field__k">MISSION</span>
+                  <span class="jv-op-field__v">
+                    Scoped real-time voice support system with strict intent routing,
+                    grounded FAQ answering, call telemetry, fallback handling,
+                    and product-style frontend delivery.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- OP-05 Clinical-Doc-AI -->
+          <article class="jv-op-card jv-op-card--extra" data-project-extra="true">
+            <div class="jv-op-card__top-edge"></div>
+            <div class="jv-op-card__scanline"></div>
+            <div class="jv-op-card__inner">
+              <div class="jv-op-card__header">
+                <span class="jv-mono jv-xs jv-dim">OP-05</span>
+                <span class="jv-op-badge">BUILDING</span>
+              </div>
+              <h3 class="jv-op-card__name">CLINICAL-DOC-AI</h3>
+              <div class="jv-op-card__fields">
+                <div class="jv-op-field">
+                  <span class="jv-op-field__k">CLASSIFICATION</span>
+                  <span class="jv-op-field__v">AI-Powered Medical Documentation System</span>
+                </div>
+                <div class="jv-op-field">
+                  <span class="jv-op-field__k">STACK</span>
+                  <span class="jv-op-field__v">Python · Whisper ASR · Llama 3.1 (Ollama) · FastAPI · JSON Schema Validation</span>
+                </div>
+                <div class="jv-op-field">
+                  <span class="jv-op-field__k">MISSION</span>
+                  <span class="jv-op-field__v">Converts full doctor–patient audio into structured clinical notes — chief
+                    complaint, visit summary, medications, tests, follow-up — each scored for extraction confidence. LLM used as a
+                    constrained extractor, not a writer. Fully local &amp; privacy-preserving.</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Hidden initially -->
+          <article class="jv-op-card jv-op-card--extra" data-project-extra="true">
+            <div class="jv-op-card__top-edge"></div>
+            <div class="jv-op-card__scanline"></div>
+            <div class="jv-op-card__inner">
+              <div class="jv-op-card__header">
+                <span class="jv-mono jv-xs jv-dim">OP-06</span>
+                <span class="jv-op-badge">SHIPPED</span>
+              </div>
+              <h3 class="jv-op-card__name">SPEECH-TO-SPEECH VIDEO CONVERTER</h3>
+              <div class="jv-op-card__fields">
+                <div class="jv-op-field"><span class="jv-op-field__k">STACK</span><span class="jv-op-field__v">Whisper ·
+                    Edge TTS · FFmpeg · Streamlit · Google Translate</span></div>
+                <div class="jv-op-field"><span class="jv-op-field__k">MISSION</span><span class="jv-op-field__v">Video
+                    language conversion pipeline with transcription, translation, voice synthesis, and timing-aware
+                    audio-video synchronization across 11 languages.</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="jv-op-card jv-op-card--extra" data-project-extra="true">
+            <div class="jv-op-card__top-edge"></div>
+            <div class="jv-op-card__scanline"></div>
+            <div class="jv-op-card__inner">
+              <div class="jv-op-card__header">
+                <span class="jv-mono jv-xs jv-dim">OP-07</span>
+                <span class="jv-op-badge">BUILDING</span>
+              </div>
+              <h3 class="jv-op-card__name">INSURESYNC</h3>
+              <div class="jv-op-card__fields">
+                <div class="jv-op-field"><span class="jv-op-field__k">STACK</span><span class="jv-op-field__v">React ·
+                    Redux Toolkit · Tailwind · Node.js · Express · MongoDB · OpenAI</span></div>
+                <div class="jv-op-field"><span class="jv-op-field__k">MISSION</span><span
+                    class="jv-op-field__v">Insurance claims workflow engine replacing spreadsheet processing with
+                    document intelligence, structured extraction, validation, and role-aware dashboards.</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="jv-op-card jv-op-card--extra" data-project-extra="true">
+            <div class="jv-op-card__top-edge"></div>
+            <div class="jv-op-card__scanline"></div>
+            <div class="jv-op-card__inner">
+              <div class="jv-op-card__header">
+                <span class="jv-mono jv-xs jv-dim">OP-08</span>
+                <span class="jv-op-badge">ML</span>
+              </div>
+              <h3 class="jv-op-card__name">SKIN CANCER DETECTION</h3>
+              <div class="jv-op-card__fields">
+                <div class="jv-op-field"><span class="jv-op-field__k">STACK</span><span class="jv-op-field__v">CNN ·
+                    Streamlit · Gemini AI · HAM10000</span></div>
+                <div class="jv-op-field"><span class="jv-op-field__k">MISSION</span><span class="jv-op-field__v">Deep
+                    learning lesion classifier with 90%+ validation accuracy, confidence visualization, and an
+                    AI-powered dermatologist chat layer.</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="jv-op-card jv-op-card--extra" data-project-extra="true">
+            <div class="jv-op-card__top-edge"></div>
+            <div class="jv-op-card__scanline"></div>
+            <div class="jv-op-card__inner">
+              <div class="jv-op-card__header">
+                <span class="jv-mono jv-xs jv-dim">OP-09</span>
+                <span class="jv-op-badge">WORKFLOW</span>
+              </div>
+              <h3 class="jv-op-card__name">CHANGE DOCUMENTATION AGENT</h3>
+              <div class="jv-op-card__fields">
+                <div class="jv-op-field"><span class="jv-op-field__k">STACK</span><span class="jv-op-field__v">n8n ·
+                    Docker · WSL2 · Google Sheets API · Google Cloud IAM</span></div>
+                <div class="jv-op-field"><span class="jv-op-field__k">MISSION</span><span
+                    class="jv-op-field__v">Automated scope-change documentation and approval workflow for AEC projects
+                    with structured data, secure service-account auth, and local-first automation.</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="jv-op-card jv-op-card--extra" data-project-extra="true">
+            <div class="jv-op-card__top-edge"></div>
+            <div class="jv-op-card__scanline"></div>
+            <div class="jv-op-card__inner">
+              <div class="jv-op-card__header">
+                <span class="jv-mono jv-xs jv-dim">OP-10</span>
+                <span class="jv-op-badge">RESEARCH</span>
+              </div>
+              <h3 class="jv-op-card__name">TORTRACE-AI</h3>
+              <div class="jv-op-card__fields">
+                <div class="jv-op-field"><span class="jv-op-field__k">STACK</span><span class="jv-op-field__v">Python ·
+                    PyTorch · Scapy · NetworkX · NumPy · pandas · SciPy · SQLite</span></div>
+                <div class="jv-op-field"><span class="jv-op-field__k">MISSION</span><span class="jv-op-field__v">A
+                    multi-method Tor attribution system using timing correlation, CNN-LSTM website fingerprinting, and
+                    graph neural networks for forensic-grade analysis.</span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="jv-section jv-section--alt" id="experience">
+      <div class="jv-container">
+        <div class="jv-section__jarvis-line jv-reveal" data-delay="0">
+          <span class="jv-mono jv-xs jv-dim">&gt; MISSION LOG SYNC COMPLETE.</span>
+          <span class="jv-section__jarvis-quote jv-mono jv-xs jv-italic jv-dim">
+            "Not just experience entries. Actual operating chapters."
+          </span>
+        </div>
+
+        <h2 class="jv-section__title jv-reveal" data-delay="1">MISSION LOG</h2>
+
+        <div class="jv-timeline">
+          <article class="jv-timeline__entry jv-reveal" data-delay="2">
+            <div class="jv-timeline__left">
+              <div class="jv-timeline__dot jv-timeline__dot--active"></div>
+              <div class="jv-timeline__line"></div>
+            </div>
+
+            <div class="jv-timeline__card jv-timeline__card--active">
+              <div class="jv-tl-header">
+                <div class="jv-tl-logo">
+                  <img src="assets/latentflow-logo.png" alt="LatentFlow.ai" />
+                </div>
+                <div class="jv-tl-meta">
+                  <span class="jv-mono jv-xs jv-dim">CURRENT</span>
+                  <span class="jv-tl-badge jv-tl-badge--work">FOUNDER / BUILDER</span>
+                </div>        </div>
+              <p class="jv-tl-role">LatentFlow.ai</p>
+              <p class="jv-tl-company">CHENNAI · WORKING GLOBALLY</p>
+              <ul class="jv-tl-bullets">
+                <li>Building AI chatbots, intelligent workflows, and websites that make tech less complicated for users
+                  and businesses.</li>
+                <li>Operating as a founder-builder across product direction, engineering, UX thinking, and end-to-end
+                  delivery.</li>
+                <li>Focused on practical AI systems that solve real problems with clarity and speed.</li>
+              </ul>
+              <div class="jv-tl-tags">
+                <span>Founder</span><span>AI Products</span><span>Workflows</span><span>Websites</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="jv-timeline__entry jv-reveal" data-delay="3">
+            <div class="jv-timeline__left">
+              <div class="jv-timeline__dot"></div>
+              <div class="jv-timeline__line"></div>
+            </div>
+
+            <div class="jv-timeline__card">
+              <div class="jv-tl-header">
+                <div class="jv-tl-logo jv-tl-logo--dark-bg">
+                  <img src="assets/infosys-logo.png" alt="Infosys Springboard" />
+                </div>
+                <div class="jv-tl-meta">
+                  <span class="jv-mono jv-xs jv-dim">FEB 2025 → APR 2025</span>
+                  <span class="jv-tl-badge jv-tl-badge--work">AI RESEARCH INTERN</span>
+                </div>        </div>
+              <p class="jv-tl-role">Multimodal Systems &amp; Data Pipelines</p>
+              <p class="jv-tl-company">INFOSYS SPRINGBOARD · REMOTE</p>
+              <ul class="jv-tl-bullets">
+                <li>Delivered a production voice pipeline with Whisper ASR, Edge TTS, and FFmpeg-based synchronization
+                  across 11 languages.</li>
+                <li>Worked on latency-quality tradeoffs in AI generation systems and built observability improvements
+                  for the team.</li>
+                <li>Shipped systems with strong emphasis on responsiveness, reliability, and product usability.
+                </li>
+              </ul>
+              <div class="jv-tl-tags">
+                <span>Voice AI</span><span>Whisper</span><span>Edge TTS</span><span>FFmpeg</span><span>FastAPI</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="jv-timeline__entry jv-reveal" data-delay="4">
+            <div class="jv-timeline__left">
+              <div class="jv-timeline__dot"></div>
+              <div class="jv-timeline__line"></div>
+            </div>
+
+            <div class="jv-timeline__card">
+              <div class="jv-tl-header">
+                <div class="jv-tl-logo jv-tl-logo--dark-bg">
+                  <img src="assets/eblitz-logo.png" alt="Team E-Blitz Racing" />
+                </div>
+                <div class="jv-tl-meta">
+                  <span class="jv-mono jv-xs jv-dim">LEADERSHIP</span>
+                  <span class="jv-tl-badge">VICE CAPTAIN</span>
+                </div>        </div>
+              <p class="jv-tl-role">Team E-Blitz Racing</p>
+              <p class="jv-tl-company">EV GO-KART DESIGN TEAM</p>
+              <ul class="jv-tl-bullets">
+                <li>Served as Vice Captain of a special college engineering team focused on EV go-kart design and
+                  execution.</li>
+                <li>Strengthened systems thinking, team coordination, rapid iteration, and build-under-pressure
+                  habits.</li>
+              </ul>
+              <div class="jv-tl-tags">
+                <span>Leadership</span><span>EV Systems</span><span>Execution</span><span>Teamwork</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="jv-timeline__entry jv-reveal" data-delay="5">
+            <div class="jv-timeline__left">
+              <div class="jv-timeline__dot"></div>
+            </div>
+
+            <div class="jv-timeline__card">
+              <div class="jv-tl-header">
+                <div class="jv-tl-logo">
+                  <img src="assets/vit-logo.png" alt="VIT Chennai" />
+                </div>
+                <div class="jv-tl-meta">
+                  <span class="jv-mono jv-xs jv-dim">ACADEMIC BASE</span>
+                  <span class="jv-tl-badge">B.TECH</span>
+                </div>        </div>
+              <p class="jv-tl-role">Electronics and Communication Engineering</p>
+              <p class="jv-tl-company">VIT CHENNAI</p>
+              <ul class="jv-tl-bullets">
+                <li>Built a technical foundation spanning communication systems, computing, embedded thinking, and
+                  applied AI problem-solving.</li>
+                <li>Gained core competencies in signal processing, VLSI design, microcontrollers, and communication protocols — applied directly to AI-embedded systems thinking.</li>
+              </ul>
+              <div class="jv-tl-tags">
+                <span>ECE</span><span>AI</span><span>Systems</span><span>Applied Engineering</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="jv-section" id="commendations">
+      <div class="jv-container">
+        <div class="jv-section__jarvis-line jv-reveal" data-delay="0">
+          <span class="jv-mono jv-xs jv-dim">&gt; EXTERNAL VALIDATION RECORDS LOADED.</span>
+          <span class="jv-section__jarvis-quote jv-mono jv-xs jv-italic jv-dim">
+            "Recognition matters most when it reflects repeatable delivery."
+          </span>
+        </div>
+
+        <h2 class="jv-section__title jv-reveal" data-delay="1">COMMENDATIONS RECEIVED</h2>
+
+        <div class="jv-honors__grid">
+          <article class="jv-honor-card jv-reveal" data-delay="2">
+            <div class="jv-honor-card__particles"></div>
+            <span class="jv-honor-card__type">HACKRX 6.0</span>
+            <h3 class="jv-honor-card__title">NATIONAL FINALIST</h3>
+            <p class="jv-honor-card__meta">TOP 1% · BAJAJ FINSERV</p>
+            <p class="jv-honor-card__desc">
+              Built a production-grade AI system under hard time constraints and
+              finished among the top submissions nationally.
+            </p>
+          </article>
+
+          <article class="jv-honor-card jv-reveal" data-delay="3">
+            <div class="jv-honor-card__particles"></div>
+            <span class="jv-honor-card__type">HACKRX 5.0</span>
+            <h3 class="jv-honor-card__title">NATIONAL FINALIST</h3>
+            <p class="jv-honor-card__meta">TOP 1% · BAJAJ FINSERV</p>
+            <p class="jv-honor-card__desc">
+              Reached the national final again, proving consistency and delivery
+              under high-pressure build conditions.
+            </p>
+          </article>
+
+          <article class="jv-honor-card jv-reveal" data-delay="4">
+            <div class="jv-honor-card__particles"></div>
+            <span class="jv-honor-card__type">COMMUNITY</span>
+            <h3 class="jv-honor-card__title">MICROSOFT AZURE DEVELOPER COMMUNITY</h3>
+            <p class="jv-honor-card__meta">MEMBER</p>
+            <p class="jv-honor-card__desc">
+              Active in developer ecosystems that sharpen cloud, AI, and product-building perspectives.
+            </p>
+          </article>
+
+          <article class="jv-honor-card jv-reveal" data-delay="5">
+            <div class="jv-honor-card__particles"></div>
+            <span class="jv-honor-card__type">COMMUNITY</span>
+            <h3 class="jv-honor-card__title">GITHUB COPILOT COMMUNITY INDIA</h3>
+            <p class="jv-honor-card__meta">MEMBER</p>
+            <p class="jv-honor-card__desc">
+              Connected to a fast-moving ecosystem around AI-assisted development and modern engineering
+              workflows.
+            </p>
+          </article>
+
+          <article class="jv-honor-card jv-reveal" data-delay="6">
+            <div class="jv-honor-card__particles"></div>
+            <span class="jv-honor-card__type">CERTIFICATION</span>
+            <h3 class="jv-honor-card__title">TRIPLE ORACLE CERTIFIED</h3>
+            <p class="jv-honor-card__meta">GENERATIVE AI · AI VECTOR SEARCH · DATA SCIENCE</p>
+            <p class="jv-honor-card__desc">
+              Verified across modern AI capabilities spanning generation, retrieval, and applied data systems.
+            </p>
+          </article>
+
+          <article class="jv-honor-card jv-reveal" data-delay="7">
+            <div class="jv-honor-card__particles"></div>
+            <span class="jv-honor-card__type">CERTIFICATION</span>
+            <h3 class="jv-honor-card__title">POSTMAN API FUNDAMENTALS STUDENT EXPERT</h3>
+            <p class="jv-honor-card__meta">VERIFIED · NOV 2024</p>
+            <p class="jv-honor-card__desc">
+              Certified proficiency in API consumption, GET/POST/PATCH/DELETE requests,
+              query parameters, headers, response codes, scripting, and API key authorization via Postman.
+            </p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="jv-section jv-section--alt" id="terminal">
+      <div class="jv-container">
+        <div class="jv-section__jarvis-line jv-reveal" data-delay="0">
+          <span class="jv-mono jv-xs jv-dim">&gt; INTERACTIVE PERSONALITY INTERFACE READY.</span>
+          <span class="jv-section__jarvis-quote jv-mono jv-xs jv-italic jv-dim">
+            "A terminal, but with character."
+          </span>
+        </div>
+
+        <h2 class="jv-section__title jv-reveal" data-delay="1">JARVIS TERMINAL</h2>
+
+        <div class="jv-terminal-wrap">
+          <div class="jv-terminal jv-reveal" data-delay="2">
+            <div class="jv-terminal__topbar">
+              <div class="jv-terminal__lights">
+                <span></span><span></span><span></span>
+              </div>
+
+              <div class="jv-terminal__title jv-mono jv-xs">
+                YASH INTERFACE / INTERACTIVE MODE
+              </div>
+
+              <label class="jv-terminal__speed">
+                <span class="jv-mono jv-xs">FAST REPLY</span>
+                <input type="checkbox" id="jv-fast-reply-toggle" />
+                <span class="jv-terminal__switch"></span>
+              </label>
+            </div>
+
+            <div class="jv-terminal__body" id="jv-terminal-body"></div>
+
+            <div class="jv-terminal__controls">
+              <button class="jv-chip" data-cmd="skills">SKILLS</button>
+              <button class="jv-chip" data-cmd="projects">PROJECTS</button>
+              <button class="jv-chip" data-cmd="experience">MISSION LOG</button>
+              <button class="jv-chip" data-cmd="communities">COMMUNITIES</button>
+              <button class="jv-chip" data-cmd="resume">RESUME</button>
+              <button class="jv-chip" data-cmd="fun fact">FUN FACT</button>
+              <button class="jv-chip" data-cmd="ask anything">ASK ANYTHING</button>
+            </div>
+
+            <div class="jv-terminal__input-row">
+              <span class="jv-t-prompt">&gt;</span>
+              <input id="jv-terminal-input" class="jv-terminal__input" type="text" autocomplete="off" spellcheck="false"
+                placeholder="Type ask anything, then ask any topic (e.g., IPL, AI, coding, markets)..." />
+            </div>
+          </div>
+
+          <div class="jv-terminal__side jv-reveal" data-delay="3">
+            
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="jv-section" id="contact">
+      <div class="jv-container">
+        <div class="jv-section__jarvis-line jv-reveal" data-delay="0">
+          <span class="jv-mono jv-xs jv-dim">&gt; OPENING COMMUNICATION CHANNELS.</span>
+          <span class="jv-section__jarvis-quote jv-mono jv-xs jv-italic jv-dim">
+            "Good conversations build the next mission."
+          </span>
+        </div>
+
+        <h2 class="jv-section__title jv-reveal" data-delay="1">MISSION DEBRIEF</h2>
+
+        <div class="jv-contact__grid">
+          <div class="jv-contact__panel jv-reveal" data-delay="2">
+            <div class="jv-contact__panel-head">
+              <span class="jv-mono jv-xs jv-red">SECURE CONTACT PANEL</span>
+            </div>
+
+            <div class="jv-contact__links">
+              <a href="mailto:yashwanthbalaji.2408@gmail.com" class="jv-contact-link">
+                <span class="jv-mono jv-xs jv-dim">EMAIL</span>
+                <span class="jv-contact-link__value">yashwanthbalaji.2408@gmail.com</span>
+              </a>
+
+              <a href="https://www.linkedin.com/in/yashwanthbalaji" target="_blank" rel="noopener noreferrer"
+                class="jv-contact-link">
+                <span class="jv-mono jv-xs jv-dim">LINKEDIN</span>
+                <span class="jv-contact-link__value">linkedin.com/in/yashwanthbalaji</span>
+              </a>
+
+              <a href="https://github.com/Yashwanth2408" target="_blank" rel="noopener noreferrer"
+                class="jv-contact-link">
+                <span class="jv-mono jv-xs jv-dim">GITHUB</span>
+                <span class="jv-contact-link__value">github.com/Yashwanth2408</span>
+              </a>
+
+              <a href="YashwanthBalaji_AIMl_Engineer.pdf" download class="jv-contact-link">
+                <span class="jv-mono jv-xs jv-dim">RESUME</span>
+                <span class="jv-contact-link__value">DOWNLOAD PDF</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="jv-contact__form-wrap jv-reveal" data-delay="3">
+            <form class="jv-comm-form" id="jv-comm-form" novalidate>
+              <div class="jv-comm-row">
+                <label class="jv-comm-label" for="jv-name">NAME</label>
+                <input class="jv-comm-input" id="jv-name" type="text" />
+                <span class="jv-comm-error" id="jv-err-name"></span>
+              </div>
+
+              <div class="jv-comm-row">
+                <label class="jv-comm-label" for="jv-email">EMAIL</label>
+                <input class="jv-comm-input" id="jv-email" type="email" />
+                <span class="jv-comm-error" id="jv-err-email"></span>
+              </div>
+
+              <div class="jv-comm-row">
+                <label class="jv-comm-label" for="jv-message">MESSAGE</label>
+                <textarea class="jv-comm-input jv-comm-input--textarea" id="jv-message"></textarea>
+                <span class="jv-comm-error" id="jv-err-msg"></span>
+              </div>
+
+              <button type="submit" class="jv-btn jv-btn--primary jv-btn--full">
+                <span class="jv-btn__bracket">[</span>
+                SEND TRANSMISSION
+                <span class="jv-btn__bracket">]</span>
+              </button>
+
+              <div class="jv-form-status jv-mono jv-xs" id="jv-form-status"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="js/jarvis.js" defer></script>
+</body>
+
+</html> 
