@@ -4,9 +4,6 @@ const path   = require('path');
 const express = require('express');
 const dotenv  = require('dotenv');
 
-const fetch = (...args) =>
-  import('node-fetch').then(({ default: fetch }) => fetch(...args));
-
 dotenv.config();
 
 const app          = express();
