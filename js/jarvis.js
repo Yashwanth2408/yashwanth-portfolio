@@ -539,6 +539,7 @@ function rafThrottle(fn) {
   /* ── Fast reply toggle state ── */
   let fastReply = false;
   let llmMode = true;
+  const chatHistory = [];
   const LLM_API = {
     endpoint: '/api/llm',
   };
@@ -965,28 +966,26 @@ function rafThrottle(fn) {
   async function fetchGroqText(userQuery) {
     const response = await fetch(LLM_API.endpoint, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ query: userQuery }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: userQuery,
+        history: chatHistory.slice(-10),   // ← sends conversation context
+      }),
     });
-
     if (!response.ok) {
-      let detail = '';
-      try {
-        const errJson = await response.json();
-        detail = errJson?.error || errJson?.details || JSON.stringify(errJson);
-      } catch {
-        detail = await response.text();
-      }
+      let detail;
+      try { const errJson = await response.json(); detail = errJson?.error || errJson?.details || JSON.stringify(errJson); }
+      catch { detail = await response.text(); }
       throw new Error(`LLM HTTP ${response.status}: ${detail}`);
     }
-
     const data = await response.json();
     const text = (data?.text || '').trim();
-    if (!text) {
-      throw new Error('LLM endpoint returned an empty response');
-    }
+    if (!text) throw new Error('LLM endpoint returned an empty response');
+  
+    // Save turn to local history
+    chatHistory.push({ role: 'user',      content: userQuery });
+    chatHistory.push({ role: 'assistant', content: text      });
+  
     return text;
   }
 
