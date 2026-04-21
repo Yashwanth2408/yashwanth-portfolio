@@ -1,5 +1,7 @@
 {
-    "rewrites": [
-      { "source": "/api/llm", "destination": "/api/llm" }
+    "version": 2,
+    "routes": [
+      { "src": "/api/llm", "dest": "/api/llm.js" },
+      { "src": "/(.*)", "dest": "/$1" }
     ]
   }
