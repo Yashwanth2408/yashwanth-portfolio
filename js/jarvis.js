@@ -538,11 +538,6 @@ function rafThrottle(fn) {
 
   /* ── Fast reply toggle state ── */
   let fastReply = false;
-  let llmMode = true;
-  const chatHistory = [];
-  const LLM_API = {
-    endpoint: '/api/llm',
-  };
 
   if (fastToggle) {
     fastToggle.addEventListener('change', () => {
@@ -678,22 +673,7 @@ function rafThrottle(fn) {
       ]
     },
 
-    'ask anything': {
-      lines: [
-        { t: 'h', v: 'ASK ANYTHING — MODE ACTIVE' },
-        { t: 'o', v: '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━' },
-        { t: 'o', v: 'Global LLM relay is now active through Groq.' },
-        { t: 'o', v: 'You can ask about any topic: tech, sports, IPL, markets, science,' },
-        { t: 'o', v: 'history, travel, writing, debugging, strategy, or general knowledge.' },
-        { t: 'o', v: '' },
-        { t: 'o', v: 'Examples:' },
-        { t: 'o', v: '  · "Who will likely win IPL this season based on current form?"' },
-        { t: 'o', v: '  · "Explain RAG vs fine-tuning in production."' },
-        { t: 'o', v: '  · "Give me a 5-day plan to learn FastAPI."' },
-        { t: 'o', v: '  · "Summarize today\'s AI trends in 5 bullets."' },
-        { t: 's', v: 'LLM mode ON. Type any question.' },
-      ]
-    },
+
   };
 
   /* ── Freeform Q&A knowledge base ── */
@@ -963,89 +943,21 @@ function rafThrottle(fn) {
     return null;
   }
 
-  async function fetchGroqText(userQuery) {
-    const response = await fetch(LLM_API.endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query: userQuery,
-        history: chatHistory.slice(-10),   // ← sends conversation context
-      }),
-    });
-    if (!response.ok) {
-      let detail;
-      try { const errJson = await response.json(); detail = errJson?.error || errJson?.details || JSON.stringify(errJson); }
-      catch { detail = await response.text(); }
-      throw new Error(`LLM HTTP ${response.status}: ${detail}`);
-    }
-    const data = await response.json();
-    const text = (data?.text || '').trim();
-    if (!text) throw new Error('LLM endpoint returned an empty response');
-  
-    // Save turn to local history
-    chatHistory.push({ role: 'user',      content: userQuery });
-    chatHistory.push({ role: 'assistant', content: text      });
-  
-    return text;
-  }
 
-  function toAiLines(text) {
-    const cleaned = text.replace(/\r/g, '').trim();
-    const split = cleaned.split('\n').map(l => l.trimEnd());
-    const lines = [{ t: 'h', v: 'JARVIS GLOBAL INTEL — GROQ LINK' }];
-
-    split.forEach(line => {
-      lines.push({ t: 'a', v: line });
-    });
-
-    lines.push({ t: 's', v: 'LLM relay complete.' });
-    return lines;
-  }
 
   async function processCommand(cmd) {
     if (!cmd.trim()) return;
     appendPromptLine(cmd);
 
     const lower = cmd.toLowerCase().trim();
-    if (lower === 'llm off' || lower === 'exit llm') {
-      llmMode = false;
-      await renderLines([
-        { t: 'h', v: 'LLM MODE DISABLED' },
-        { t: 'o', v: 'Groq relay is paused. Local knowledge mode restored.' },
-        { t: 's', v: 'Use "ask anything" to enable it again.' },
-      ]);
-      return;
-    }
 
     const matched = matchQuery(cmd);
     if (matched) {
-      if (lower === 'ask anything') llmMode = true;
       await renderLines(matched);
       return;
     }
 
-    if (!llmMode) {
-      await renderLines(nextFallback());
-      return;
-    }
-
-    appendLine('o', '[LLM LINK] Querying Groq knowledge core...');
-    try {
-      const aiText = await fetchGroqText(cmd);
-      await renderLines(toAiLines(aiText));
-    } catch (err) {
-      console.error('Groq relay failed:', err);
-      const msg = String(err?.message || err || 'Unknown relay error');
-      const isQuota = /429|quota|billing|rate[- ]?limit/i.test(msg);
-      await renderLines([
-        { t: 'e', v: 'LLM relay unavailable at this moment.' },
-        { t: 'o', v: isQuota
-          ? 'Groq API connection failed. Check your API key in .env and ensure Groq service is accessible.'
-          : 'Check backend relay status, API key setup, quota, or network access.' },
-        { t: 'o', v: `DETAIL: ${msg.slice(0, 180)}` },
-        ...nextFallback(),
-      ]);
-    }
+    await renderLines(nextFallback());
   }
 
   /* ── Boot message ── */
@@ -1053,9 +965,8 @@ function rafThrottle(fn) {
     await renderLines([
       { t: 'h', v: 'YASH INTERFACE — INTERACTIVE MODE v2.5' },
       { t: 'o', v: 'Hello, visitor. I\'m the interface for Yash.' },
-      { t: 'o', v: 'Use local commands for profile data, or enable secure global LLM mode.' },
+      { t: 'o', v: 'Use commands for profile data, projects, skills, and more.' },
       { t: 'o', v: 'Use the quick-access chips above, or type your own question.' },
-      { t: 'o', v: 'Type "ask anything" to route any topic through the secure LLM relay.' },
       { t: 'o', v: '' },
       { t: 'o', v: 'Toggle FAST REPLY in the toolbar to skip typing animations.' },
       { t: 's', v: 'Ready. What do you want to know?' },
