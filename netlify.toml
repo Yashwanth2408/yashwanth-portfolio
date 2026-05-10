@@ -1,0 +1,18 @@
+[build]
+  command = "echo 'No build needed'"
+  publish = "."
+  functions = "netlify/functions"
+
+[dev]
+  functions = "netlify/functions"
+  command = "echo 'Dev server'"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[env]
+  GROQ_API_KEY = ""
+  GROQ_MODEL = "llama-3.3-70b-versatile"
+  PORT = "3000"
