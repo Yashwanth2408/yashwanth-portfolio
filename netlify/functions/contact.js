@@ -8,53 +8,63 @@ const RESEND_FROM_EMAIL = 'onboarding@resend.dev'; // Or your verified domain
 
 // Send email via EmailJS API
 async function sendEmailJS(params, templateId) {
-  const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      service_id: EMAILJS_SERVICE_ID,
-      template_id: templateId,
-      user_id: EMAILJS_PUBLIC_KEY,
-      template_params: params,
-    }),
-  });
+  try {
+    const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        service_id: EMAILJS_SERVICE_ID,
+        template_id: templateId,
+        user_id: EMAILJS_PUBLIC_KEY,
+        template_params: params,
+      }),
+    });
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`EmailJS failed: ${response.status} - ${errorText}`);
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`EmailJS HTTP ${response.status}: ${errorText}`);
+    }
+
+    return await response.json();
+  } catch (err) {
+    console.error('EmailJS error:', err.message);
+    throw err;
   }
-
-  return response.json();
 }
 
 // Send email via Resend API
 async function sendResendEmail(to, subject, html) {
   if (!RESEND_API_KEY) {
-    console.warn('RESEND_API_KEY not configured, skipping thank you email');
-    return null;
+    console.log('RESEND_API_KEY not configured - thank you email skipped');
+    return { skipped: true };
   }
 
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${RESEND_API_KEY}`,
-    },
-    body: JSON.stringify({
-      from: RESEND_FROM_EMAIL,
-      to,
-      subject,
-      html,
-    }),
-  });
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+      },
+      body: JSON.stringify({
+        from: RESEND_FROM_EMAIL,
+        to,
+        subject,
+        html,
+      }),
+    });
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    console.error(`Resend API failed: ${response.status} - ${errorText}`);
-    throw new Error(`Resend failed: ${response.status}`);
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Resend HTTP ${response.status}:`, errorText);
+      return { error: true, message: `HTTP ${response.status}` };
+    }
+
+    return await response.json();
+  } catch (err) {
+    console.error('Resend request failed:', err.message);
+    return { error: true, message: err.message };
   }
-
-  return response.json();
 }
 
 // Generate HTML thank you email
@@ -185,32 +195,41 @@ exports.handler = async (event, context) => {
     }
 
     // Email to Yash via EmailJS
-    console.log('Sending email to Yash...');
-    await sendEmailJS(
-      {
-        from_name,
-        from_email,
-        message,
-        to_email: YASH_EMAIL,
-      },
-      EMAILJS_TEMPLATE_ID
-    );
+    console.log('Sending email to Yash via EmailJS...');
+    try {
+      await sendEmailJS(
+        {
+          from_name,
+          from_email,
+          message,
+          to_email: YASH_EMAIL,
+        },
+        EMAILJS_TEMPLATE_ID
+      );
+      console.log('Email sent to Yash successfully');
+    } catch (emailJsErr) {
+      console.error('EmailJS error:', emailJsErr.message);
+      throw new Error(`EmailJS: ${emailJsErr.message}`);
+    }
 
-    // Email to user with thank you message via Resend
+    // Email to user with thank you message via Resend (optional)
     console.log('Sending thank you email to user via Resend...');
     const thankyouHtml = generateThankYouHtml(from_name);
     
-    try {
-      await sendResendEmail(
-        from_email,
-        'Message Received — Yash Will Reply Shortly',
-        thankyouHtml
-      );
-      console.log('Thank you email sent successfully to', from_email);
-    } catch (resendErr) {
-      console.error('Failed to send thank you email:', resendErr.message);
-      // Don't fail the whole request if thank you email fails
-      // Main email to Yash was already sent successfully
+    if (!RESEND_API_KEY) {
+      console.warn('RESEND_API_KEY not set in environment - skipping thank you email');
+    } else {
+      try {
+        await sendResendEmail(
+          from_email,
+          'Message Received — Yash Will Reply Shortly',
+          thankyouHtml
+        );
+        console.log('Thank you email sent successfully to', from_email);
+      } catch (resendErr) {
+        console.error('Resend error:', resendErr.message);
+        // Log but don't fail - main email to Yash was sent successfully
+      }
     }
 
     return {
