@@ -1108,12 +1108,8 @@ function rafThrottle(fn) {
   const status   = qs('#jv-form-status');
   if (!form) return;
 
-  const EMAILJS_CONFIG = {
-    serviceId: 'service_kyjodf9',
-    templateId: 'template_8olow4m',
-    publicKey: 'YcWbP9LEjxjQvl-wp',
-    toEmail: 'yashwanthbalaji.2408@gmail.com',
-    thankYouTemplateId: 'template_thank_you', // Will use inline HTML for flexibility
+  const CONTACT_API = {
+    endpoint: '/.netlify/functions/contact',
   };
 
   const nameInput  = qs('#jv-name');
@@ -1124,7 +1120,8 @@ function rafThrottle(fn) {
   const errMsg     = qs('#jv-err-msg');
 
   if (window.emailjs && typeof window.emailjs.init === 'function') {
-    window.emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey });
+    // EmailJS no longer used - Netlify function handles all emails
+    console.log('Contact form will use Netlify serverless function');
   }
 
   function setError(el, msg) {
@@ -1177,133 +1174,37 @@ function rafThrottle(fn) {
     status.textContent = '[ LINKING TO MAIL RELAY ] — Sending transmission...';
 
     try {
-      if (!window.emailjs || typeof window.emailjs.send !== 'function') {
-        throw new Error('EmailJS SDK unavailable');
+      const response = await fetch(CONTACT_API.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          from_name: nameInput.value.trim(),
+          from_email: emailInput.value.trim(),
+          message: msgInput.value.trim(),
+        }),
+      });
+
+      if (!response.ok) {
+        let errorMsg = 'Failed to send message';
+        try {
+          const errorData = await response.json();
+          errorMsg = errorData.error || errorMsg;
+        } catch { }
+        throw new Error(errorMsg);
       }
 
-      const templateParams = {
-        from_name: nameInput.value.trim(),
-        from_email: emailInput.value.trim(),
-        message: msgInput.value.trim(),
-        to_email: EMAILJS_CONFIG.toEmail,
-      };
-
-      // Send email to Yash
-      await window.emailjs.send(
-        EMAILJS_CONFIG.serviceId,
-        EMAILJS_CONFIG.templateId,
-        templateParams,
-        { publicKey: EMAILJS_CONFIG.publicKey },
-      );
-
-      // Send thank you email to user with HTML formatting
-      const thankyouHtml = `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background: #050506; }
-    .container { max-width: 600px; margin: 0 auto; background: #0a0a0c; border: 1px solid rgba(232, 48, 48, 0.3); border-radius: 8px; overflow: hidden; }
-    .header { background: linear-gradient(135deg, #e83030 0%, #b01f1f 100%); padding: 40px 30px; text-align: center; }
-    .header h1 { color: #ffffff; margin: 0; font-size: 28px; font-weight: 700; letter-spacing: 2px; }
-    .header p { color: rgba(255, 255, 255, 0.8); margin: 8px 0 0 0; font-size: 14px; }
-    .content { padding: 40px 30px; color: #e8e8e8; line-height: 1.6; }
-    .greeting { font-size: 16px; margin-bottom: 20px; }
-    .message { background: rgba(232, 48, 48, 0.07); border-left: 4px solid #e83030; padding: 20px; margin: 25px 0; border-radius: 4px; }
-    .message p { margin: 0; font-size: 14px; color: #e8e8e8; }
-    .highlight { color: #ff4444; font-weight: 600; }
-    .footer-text { margin: 30px 0 0 0; font-size: 13px; color: #888890; line-height: 1.8; }
-    .divider { height: 1px; background: rgba(232, 48, 48, 0.2); margin: 30px 0; }
-    .signature { margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.06); }
-    .signature p { margin: 0; font-size: 13px; color: #e8e8e8; }
-    .red-text { color: #e83030; }
-    strong { color: #ffffff; }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>[ MESSAGE RECEIVED ]</h1>
-      <p>YASH INTERFACE — SECURE RELAY</p>
-    </div>
-    
-    <div class="content">
-      <div class="greeting">
-        <p>Hello <strong>${nameInput.value.trim()}</strong>,</p>
-      </div>
-
-      <p style="margin: 0 0 20px 0;">Thank you for reaching out. Your message has been successfully transmitted to Yash's secure relay system.</p>
-
-      <div class="message">
-        <p><span class="highlight">✓ MESSAGE STATUS:</span> CONFIRMED & QUEUED</p>
-      </div>
-
-      <p style="margin: 20px 0;">Yash is dedicated to building exceptional solutions and values every connection. Here's what's next:</p>
-
-      <ul style="margin: 20px 0; padding-left: 20px; color: #e8e8e8;">
-        <li style="margin-bottom: 12px;"><strong>Review</strong> — Your message is being reviewed personally by Yash</li>
-        <li style="margin-bottom: 12px;"><strong>Response</strong> — You can expect a thoughtful reply within 24-48 hours</li>
-        <li style="margin-bottom: 12px;"><strong>Collaboration</strong> — Whether it's a project, opportunity, or idea, Yash is excited to explore possibilities</li>
-      </ul>
-
-      <p style="margin: 25px 0;">In the meantime, feel free to connect on:</p>
-      <ul style="margin: 10px 0; padding-left: 20px; color: #e8e8e8; font-size: 14px;">
-        <li><a href="https://www.linkedin.com/in/yashwanthbalaji" style="color: #00e5ff; text-decoration: none;">LinkedIn</a> — Professional updates & insights</li>
-        <li><a href="https://github.com/Yashwanth2408" style="color: #00e5ff; text-decoration: none;">GitHub</a> — Explore code & projects</li>
-      </ul>
-
-      <div class="divider"></div>
-
-      <p style="margin: 0; font-size: 14px; font-style: italic; color: #888890;">
-        "Good conversations build the next mission." — This is the beginning of something great.
-      </p>
-
-      <div class="signature">
-        <p><strong>YASH</strong></p>
-        <p style="margin: 5px 0 0 0; color: #888890; font-size: 12px;">AI Engineer · Founder @ LatentFlow.ai</p>
-        <p style="margin: 8px 0 0 0; color: #e83030; font-size: 12px;">🚀 Building intelligent solutions at scale</p>
-      </div>
-
-      <div class="footer-text">
-        <p style="margin: 0;">This is an automated response confirming receipt of your message. Yash will get back to you shortly with a personal reply. This mailbox is monitored, so all messages are important.</p>
-      </div>
-    </div>
-  </div>
-</body>
-</html>
-      `;
-
-      const thankyouParams = {
-        to_email: emailInput.value.trim(),
-        user_name: nameInput.value.trim(),
-        html_message: thankyouHtml,
-      };
-
-      // Send thank you email using a generic template or direct HTML
-      try {
-        await window.emailjs.send(
-          EMAILJS_CONFIG.serviceId,
-          'template_thank_you_html', // This template just needs to include {html_message}
-          thankyouParams,
-          { publicKey: EMAILJS_CONFIG.publicKey },
-        );
-      } catch (thankYouErr) {
-        // If thank you template doesn't exist, try alternative approach
-        console.warn('Thank you email template not found, attempting alternative...');
-      }
+      const result = await response.json();
 
       status.style.color = 'var(--clr-red)';
-      status.textContent = '[ SIGNAL ACQUIRED ] — Message received. Yash will respond.';
+      status.textContent = '[ SIGNAL ACQUIRED ] — Message received. Yash will respond within 24-48 hours.';
 
       form.reset();
       clearErrors();
-      setTimeout(() => { status.textContent = ''; }, 7000);
+      setTimeout(() => { status.textContent = ''; }, 8000);
     } catch (err) {
+      console.error('Contact submission failed:', err);
       status.style.color = 'var(--clr-red)';
-      status.textContent = '[ TRANSMISSION FAILED ] — Please retry in a few seconds.';
-      console.error('EmailJS send failed:', err);
+      status.textContent = `[ TRANSMISSION FAILED ] — ${err.message || 'Please retry in a few seconds.'} `;
     } finally {
       btn.innerHTML = `<span class="jv-btn__bracket">[</span>SEND TRANSMISSION<span class="jv-btn__bracket">]</span>`;
       btn.disabled  = false;
