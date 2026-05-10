@@ -3,6 +3,8 @@ const EMAILJS_SERVICE_ID = 'service_kyjodf9';
 const EMAILJS_TEMPLATE_ID = 'template_8olow4m';
 const EMAILJS_PUBLIC_KEY = 'YcWbP9LEjxjQvl-wp';
 const YASH_EMAIL = 'yashwanthbalaji.2408@gmail.com';
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const RESEND_FROM_EMAIL = 'onboarding@resend.dev'; // Or your verified domain
 
 // Send email via EmailJS API
 async function sendEmailJS(params, templateId) {
@@ -20,6 +22,36 @@ async function sendEmailJS(params, templateId) {
   if (!response.ok) {
     const errorText = await response.text();
     throw new Error(`EmailJS failed: ${response.status} - ${errorText}`);
+  }
+
+  return response.json();
+}
+
+// Send email via Resend API
+async function sendResendEmail(to, subject, html) {
+  if (!RESEND_API_KEY) {
+    console.warn('RESEND_API_KEY not configured, skipping thank you email');
+    return null;
+  }
+
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${RESEND_API_KEY}`,
+    },
+    body: JSON.stringify({
+      from: RESEND_FROM_EMAIL,
+      to,
+      subject,
+      html,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error(`Resend API failed: ${response.status} - ${errorText}`);
+    throw new Error(`Resend failed: ${response.status}`);
   }
 
   return response.json();
@@ -164,18 +196,21 @@ exports.handler = async (event, context) => {
       EMAILJS_TEMPLATE_ID
     );
 
-    // Email to user with thank you message
-    console.log('Sending thank you email to user...');
+    // Email to user with thank you message via Resend
+    console.log('Sending thank you email to user via Resend...');
     const thankyouHtml = generateThankYouHtml(from_name);
-
-    // Send thank you email using nodemailer (via service)
-    // For now, we'll use a simple fetch-based approach or skip it if not available
+    
     try {
-      // Try using a free email service API if available
-      // This is a placeholder - can be replaced with actual service
-      console.log('Thank you email HTML generated for', from_email);
-    } catch (err) {
-      console.warn('Could not send thank you email:', err.message);
+      await sendResendEmail(
+        from_email,
+        'Message Received — Yash Will Reply Shortly',
+        thankyouHtml
+      );
+      console.log('Thank you email sent successfully to', from_email);
+    } catch (resendErr) {
+      console.error('Failed to send thank you email:', resendErr.message);
+      // Don't fail the whole request if thank you email fails
+      // Main email to Yash was already sent successfully
     }
 
     return {
