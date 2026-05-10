@@ -1189,6 +1189,9 @@ function rafThrottle(fn) {
         try {
           const errorData = await response.json();
           errorMsg = errorData.error || errorMsg;
+          if (errorData.details) {
+            errorMsg += ` — ${errorData.details}`;
+          }
         } catch { }
         throw new Error(errorMsg);
       }
