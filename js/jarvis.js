@@ -1108,8 +1108,11 @@ function rafThrottle(fn) {
   const status   = qs('#jv-form-status');
   if (!form) return;
 
-  const CONTACT_API = {
-    endpoint: '/.netlify/functions/contact',
+  const EMAILJS_CONFIG = {
+    serviceId: 'service_kyjodf9',
+    templateId: 'template_8olow4m',
+    publicKey: 'YcWbP9LEjxjQvl-wp',
+    toEmail: 'yashwanthbalaji.2408@gmail.com',
   };
 
   const nameInput  = qs('#jv-name');
@@ -1120,8 +1123,7 @@ function rafThrottle(fn) {
   const errMsg     = qs('#jv-err-msg');
 
   if (window.emailjs && typeof window.emailjs.init === 'function') {
-    // EmailJS no longer used - Netlify function handles all emails
-    console.log('Contact form will use Netlify serverless function');
+    window.emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey });
   }
 
   function setError(el, msg) {
@@ -1174,40 +1176,34 @@ function rafThrottle(fn) {
     status.textContent = '[ LINKING TO MAIL RELAY ] — Sending transmission...';
 
     try {
-      const response = await fetch(CONTACT_API.endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          from_name: nameInput.value.trim(),
-          from_email: emailInput.value.trim(),
-          message: msgInput.value.trim(),
-        }),
-      });
-
-      if (!response.ok) {
-        let errorMsg = 'Failed to send message';
-        try {
-          const errorData = await response.json();
-          errorMsg = errorData.error || errorMsg;
-          if (errorData.details) {
-            errorMsg += ` — ${errorData.details}`;
-          }
-        } catch { }
-        throw new Error(errorMsg);
+      if (!window.emailjs || typeof window.emailjs.send !== 'function') {
+        throw new Error('EmailJS SDK unavailable');
       }
 
-      const result = await response.json();
+      const templateParams = {
+        from_name: nameInput.value.trim(),
+        from_email: emailInput.value.trim(),
+        message: msgInput.value.trim(),
+        to_email: EMAILJS_CONFIG.toEmail,
+      };
+
+      await window.emailjs.send(
+        EMAILJS_CONFIG.serviceId,
+        EMAILJS_CONFIG.templateId,
+        templateParams,
+        { publicKey: EMAILJS_CONFIG.publicKey },
+      );
 
       status.style.color = 'var(--clr-red)';
-      status.textContent = '[ SIGNAL ACQUIRED ] — Message received. Yash will respond within 24-48 hours.';
+      status.textContent = '[ SIGNAL ACQUIRED ] — Message received. Yash will respond.';
 
       form.reset();
       clearErrors();
-      setTimeout(() => { status.textContent = ''; }, 8000);
+      setTimeout(() => { status.textContent = ''; }, 7000);
     } catch (err) {
-      console.error('Contact submission failed:', err);
       status.style.color = 'var(--clr-red)';
-      status.textContent = `[ TRANSMISSION FAILED ] — ${err.message || 'Please retry in a few seconds.'} `;
+      status.textContent = `[ TRANSMISSION FAILED ] — ${err.message || 'Please retry in a few seconds.'}`;
+      console.error('EmailJS send failed:', err);
     } finally {
       btn.innerHTML = `<span class="jv-btn__bracket">[</span>SEND TRANSMISSION<span class="jv-btn__bracket">]</span>`;
       btn.disabled  = false;
