@@ -974,8 +974,9 @@ function rafThrottle(fn) {
     });
     if (!response.ok) {
       let detail;
-      try { const errJson = await response.json(); detail = errJson?.error || errJson?.details || JSON.stringify(errJson); }
-      catch { detail = await response.text(); }
+      const rawText = await response.text();
+      try { const errJson = JSON.parse(rawText); detail = errJson?.error || errJson?.details || rawText; }
+      catch { detail = rawText; }
       throw new Error(`LLM HTTP ${response.status}: ${detail}`);
     }
     const data = await response.json();
