@@ -14,5 +14,5 @@
 
 [env]
   GROQ_API_KEY = ""
-  GROQ_MODEL = "llama-3.3-70b-versatile"
+  GROQ_MODEL = ""
   PORT = "3000"
