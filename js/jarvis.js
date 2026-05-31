@@ -1236,3 +1236,327 @@ console.log(
   '%c LatentFlow.ai | AI Engineer | Chennai',
   'color:#888;font-family:monospace;font-size:11px;',
 );
+
+/* ─────────────────────────────────────────────────────────────
+   ADVANCED INTERACTIVE FEATURES - CURSOR BLOB & DRAG EFFECTS
+───────────────────────────────────────────────────────────── */
+
+(function initCursorBlob() {
+  const blob = document.createElement('div');
+  blob.className = 'jv-cursor-blob';
+  document.body.appendChild(blob);
+  
+  let mouseX = 0, mouseY = 0;
+  let blobX = 0, blobY = 0;
+  
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+  
+  function animateBlob() {
+    blobX += (mouseX - blobX) * 0.2;
+    blobY += (mouseY - blobY) * 0.2;
+    blob.style.left = (blobX - 15) + 'px';
+    blob.style.top = (blobY - 15) + 'px';
+    requestAnimationFrame(animateBlob);
+  }
+  
+  animateBlob();
+  
+  // Detect hover on interactive elements
+  document.addEventListener('mouseover', (e) => {
+    if (e.target.closest('a, button, .jv-op-card, .jv-chip')) {
+      blob.classList.add('active');
+    }
+  });
+  
+  document.addEventListener('mouseout', (e) => {
+    if (!e.target.closest('a, button, .jv-op-card, .jv-chip')) {
+      blob.classList.remove('active');
+    }
+  });
+})();
+
+/* ─────────────────────────────────────────────────────────────
+   DRAG AND DROP PROJECT CARDS
+───────────────────────────────────────────────────────────── */
+
+(function initDragDrop() {
+  const grid = qs('#jv-projects-grid');
+  if (!grid) return;
+  
+  let draggedEl = null;
+  
+  grid.addEventListener('dragstart', (e) => {
+    if (!e.target.closest('.jv-op-card')) return;
+    draggedEl = e.target.closest('.jv-op-card');
+    draggedEl.classList.add('draggable-active');
+  });
+  
+  grid.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    const card = e.target.closest('.jv-op-card');
+    if (card && card !== draggedEl) {
+      card.classList.add('draggable-over');
+      grid.insertBefore(draggedEl, card);
+    }
+  });
+  
+  grid.addEventListener('drop', (e) => {
+    e.preventDefault();
+    qsa('.jv-op-card').forEach(card => {
+      card.classList.remove('draggable-over', 'draggable-active');
+    });
+  });
+  
+  grid.addEventListener('dragend', () => {
+    qsa('.jv-op-card').forEach(card => {
+      card.classList.remove('draggable-over', 'draggable-active');
+    });
+  });
+  
+  // Make cards draggable
+  qsa('.jv-op-card').forEach(card => {
+    card.draggable = true;
+  });
+})();
+
+/* ─────────────────────────────────────────────────────────────
+   RIPPLE EFFECT ON BUTTON CLICKS
+───────────────────────────────────────────────────────────── */
+
+(function initRippleEffect() {
+  qsa('button').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      const rect = btn.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top - size / 2;
+      
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+      
+      btn.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    });
+  });
+})();
+
+/* ─────────────────────────────────────────────────────────────
+   SMOOTH SCROLL PARALLAX EFFECT
+───────────────────────────────────────────────────────────── */
+
+(function initParallaxScroll() {
+  const sections = qsa('.jv-section');
+  const observerOptions = {
+    threshold: 0.3,
+    rootMargin: '0px 0px -100px 0px'
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+      }
+    });
+  }, observerOptions);
+  
+  sections.forEach(section => observer.observe(section));
+  
+  // Parallax movement
+  window.addEventListener('scroll', rafThrottle(() => {
+    sections.forEach(section => {
+      const scrollY = window.scrollY;
+      const rect = section.getBoundingClientRect();
+      const offset = rect.top - window.innerHeight / 2;
+      section.style.setProperty('--scroll-offset', -offset * 0.5 + 'px');
+    });
+  }));
+})();
+
+/* ─────────────────────────────────────────────────────────────
+   MAGNETIC BUTTON EFFECT - FOLLOW CURSOR
+───────────────────────────────────────────────────────────── */
+
+(function initMagneticButtons() {
+  const buttons = qsa('.jv-btn--primary, .jv-btn--ghost');
+  
+  buttons.forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      const distance = Math.sqrt(x * x + y * y);
+      const maxDistance = 50;
+      
+      if (distance < maxDistance) {
+        const angle = Math.atan2(y, x);
+        const force = 1 - (distance / maxDistance);
+        btn.style.transform = `translate(${Math.cos(angle) * force * 8}px, ${Math.sin(angle) * force * 8}px)`;
+      }
+    });
+    
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = 'translate(0, 0)';
+    });
+  });
+})();
+
+/* ─────────────────────────────────────────────────────────────
+   ADVANCED PROJECT CARD HOVER EFFECTS
+───────────────────────────────────────────────────────────── */
+
+(function initAdvancedCardEffects() {
+  const cards = qsa('.jv-op-card');
+  
+  cards.forEach(card => {
+    // 3D Tilt on Mouse Move
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      const rotateX = (y - centerY) / 10;
+      const rotateY = (centerX - x) / 10;
+      
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+    
+    // Glow tracking effect
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      card.style.setProperty('--glow-x', x + 'px');
+      card.style.setProperty('--glow-y', y + 'px');
+    });
+  });
+})();
+
+/* ─────────────────────────────────────────────────────────────
+   INTERACTIVE BADGE ANIMATION
+───────────────────────────────────────────────────────────── */
+
+(function initBadgeAnimation() {
+  const badges = qsa('.jv-op-badge');
+  
+  badges.forEach((badge, index) => {
+    setInterval(() => {
+      const colors = ['#e83030', '#ff4444', '#b01f1f', '#e83030'];
+      badge.style.color = colors[Math.floor(Math.random() * colors.length)];
+    }, 2000 + index * 500);
+  });
+})();
+
+/* ─────────────────────────────────────────────────────────────
+   GITHUB LINK ANIMATION
+───────────────────────────────────────────────────────────── */
+
+(function initGitHubLinkAnimation() {
+  const links = qsa('.jv-op-github-link');
+  
+  links.forEach(link => {
+    link.addEventListener('click', (e) => {
+      // Create pulse effect
+      const pulse = document.createElement('span');
+      pulse.style.position = 'absolute';
+      pulse.style.width = '100%';
+      pulse.style.height = '100%';
+      pulse.style.borderRadius = 'inherit';
+      pulse.style.border = '2px solid #e83030';
+      pulse.style.pointerEvents = 'none';
+      pulse.style.animation = 'borderShine 0.8s ease-out';
+      
+      link.appendChild(pulse);
+      setTimeout(() => pulse.remove(), 800);
+    });
+  });
+})();
+
+/* ─────────────────────────────────────────────────────────────
+   SMOOTH LOADING & PAGE TRANSITIONS
+───────────────────────────────────────────────────────────── */
+
+(function initPageTransitions() {
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[target="_blank"]');
+    if (!link) return;
+    
+    // Add smooth fade-out effect
+    link.style.opacity = '0.8';
+    setTimeout(() => {
+      link.style.opacity = '1';
+    }, 200);
+  });
+})();
+
+/* ─────────────────────────────────────────────────────────────
+   HOVER CARD TEXT GLOW
+───────────────────────────────────────────────────────────── */
+
+(function initTextGlow() {
+  const names = qsa('.jv-op-card__name');
+  
+  names.forEach(name => {
+    name.addEventListener('mouseenter', () => {
+      name.style.textShadow = '0 0 20px rgba(232, 48, 48, 0.8), 0 0 40px rgba(232, 48, 48, 0.4)';
+    });
+    
+    name.addEventListener('mouseleave', () => {
+      name.style.textShadow = '';
+    });
+  });
+})();
+
+/* ─────────────────────────────────────────────────────────────
+   ENHANCED KEYBOARD NAVIGATION & ACCESSIBILITY
+───────────────────────────────────────────────────────────── */
+
+(function initKeyboardNav() {
+  const cards = qsa('.jv-op-card');
+  let currentFocusIndex = 0;
+  
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') {
+      currentFocusIndex = (currentFocusIndex + 1) % cards.length;
+      cards[currentFocusIndex].focus();
+    } else if (e.key === 'ArrowLeft') {
+      currentFocusIndex = (currentFocusIndex - 1 + cards.length) % cards.length;
+      cards[currentFocusIndex].focus();
+    }
+  });
+})();
+
+/* ─────────────────────────────────────────────────────────────
+   SCROLL-TRIGGERED ANIMATIONS
+───────────────────────────────────────────────────────────── */
+
+(function initScrollAnimations() {
+  const animElements = qsa('[data-animate]');
+  
+  const animObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
+        animObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  
+  animElements.forEach(el => animObserver.observe(el));
+})();
+
+console.log('%c Interactive features loaded: Cursor tracking, Drag-n-Drop, Parallax, Magnetic buttons, & more! ', 'color:#e83030;font-weight:bold;');

@@ -2483,3 +2483,398 @@ body.cursor-hover .jv-cursor__ring {
   opacity: 1;
   transform: scale(1.04);
 }
+
+/* ============================================================
+   INTERACTIVE EFFECTS - GITHUB ICONS & PROJECT CARDS
+   ============================================================ */
+
+/* GitHub Icon Styling */
+.jv-op-github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--rad-sm);
+  background: rgba(232, 48, 48, 0.08);
+  border: 1px solid var(--clr-red-border);
+  transition: all 0.3s var(--ease-out);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.jv-op-github-icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--clr-text-muted);
+  transition: all 0.3s var(--ease-out);
+  filter: drop-shadow(0 0 0px rgba(232, 48, 48, 0));
+}
+
+.jv-op-github-link:hover {
+  background: rgba(232, 48, 48, 0.15);
+  border-color: var(--clr-red);
+  box-shadow: 0 0 12px rgba(232, 48, 48, 0.4), 
+              inset 0 0 8px rgba(232, 48, 48, 0.2);
+  transform: scale(1.1) translateY(-2px);
+}
+
+.jv-op-github-link:hover .jv-op-github-icon {
+  color: var(--clr-red-bright);
+  filter: drop-shadow(0 0 4px rgba(232, 48, 48, 0.6));
+  transform: scale(1.15);
+}
+
+/* Project Card 3D Hover Effect */
+.jv-op-card {
+  position: relative;
+  perspective: 1000px;
+  transition: all 0.5s var(--ease-out);
+  cursor: grab;
+  user-select: none;
+}
+
+.jv-op-card:hover {
+  transform: translateY(-8px) rotateX(2deg) rotateY(-2deg) 
+             scale(1.02);
+  box-shadow: 0 20px 40px rgba(232, 48, 48, 0.2),
+              0 0 30px rgba(232, 48, 48, 0.15);
+}
+
+.jv-op-card:active {
+  cursor: grabbing;
+}
+
+/* Card Inner Content Animation */
+.jv-op-card__inner {
+  position: relative;
+  transition: all 0.4s var(--ease-out);
+}
+
+.jv-op-card:hover .jv-op-card__inner {
+  transform: translateZ(20px);
+}
+
+/* Glow Effect on Card Header */
+.jv-op-card__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  justify-content: space-between;
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--clr-border-md);
+  margin-bottom: var(--sp-4);
+  transition: all 0.3s var(--ease-out);
+}
+
+.jv-op-card:hover .jv-op-card__header {
+  border-bottom-color: var(--clr-red);
+  box-shadow: 0 2px 0 rgba(232, 48, 48, 0.4);
+}
+
+/* Enhanced Project Name Hover Effect */
+.jv-op-card__name {
+  transition: all 0.3s var(--ease-out);
+  text-shadow: 0 0 0px rgba(232, 48, 48, 0);
+}
+
+.jv-op-card:hover .jv-op-card__name {
+  color: var(--clr-red-bright);
+  text-shadow: 0 0 15px rgba(232, 48, 48, 0.5),
+               0 0 30px rgba(232, 48, 48, 0.25);
+  letter-spacing: 0.05em;
+}
+
+/* Animated Border Glow */
+.jv-op-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(232, 48, 48, 0.1) 0%, 
+    transparent 50%, 
+    rgba(232, 48, 48, 0.05) 100%);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out);
+  pointer-events: none;
+}
+
+.jv-op-card:hover::before {
+  opacity: 1;
+}
+
+/* Magnetic Button Effect for "Load More" Button */
+.jv-projects__toggle {
+  position: relative;
+  overflow: hidden;
+}
+
+.jv-projects__toggle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(232, 48, 48, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+  pointer-events: none;
+}
+
+.jv-projects__toggle:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Drag and Drop Reorder Hint */
+.jv-op-card.draggable-active {
+  opacity: 0.7;
+  transform: scale(0.95) rotateZ(-2deg);
+}
+
+.jv-op-card.draggable-over {
+  transform: scaleY(1.1);
+  border-color: var(--clr-red);
+}
+
+/* Smooth Field Transitions */
+.jv-op-field {
+  transition: all 0.3s var(--ease-out);
+}
+
+.jv-op-card:hover .jv-op-field {
+  transform: translateX(2px);
+}
+
+/* ============================================================
+   CURSOR EFFECTS & INTERACTIVE ENHANCEMENTS
+   ============================================================ */
+
+/* Custom Cursor Blob */
+body {
+  cursor: none;
+}
+
+.jv-cursor-blob {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle, rgba(232, 48, 48, 0.5) 0%, rgba(232, 48, 48, 0.1) 100%);
+  border-radius: 50%;
+  filter: blur(8px);
+  mix-blend-mode: screen;
+  opacity: 0.6;
+  transition: width 0.1s, height 0.1s;
+}
+
+.jv-cursor-blob.active {
+  width: 50px;
+  height: 50px;
+  opacity: 0.8;
+}
+
+/* Text Glitch Effect */
+@keyframes glitch {
+  0%, 100% { text-shadow: 0 0 0px transparent; }
+  20% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
+  40% { text-shadow: -2px 0 #00ffff, 2px 0 #ff00ff; }
+  60% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
+  80% { text-shadow: -2px 0 #00ffff, 2px 0 #ff00ff; }
+}
+
+.jv-op-card:hover .jv-op-card__name {
+  animation: glitch 0.5s ease-in-out;
+}
+
+/* Ripple Effect on Click */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(232, 48, 48, 0.5);
+  pointer-events: none;
+  animation: ripple 0.6s ease-out;
+}
+
+/* ============================================================
+   SCROLL PARALLAX & PAGE TRANSITIONS
+   ============================================================ */
+
+/* Parallax Background */
+.jv-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.jv-section::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, 
+    rgba(232, 48, 48, 0.02) 0%, 
+    transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-out);
+  transform: translateY(var(--scroll-offset, 0px));
+}
+
+.jv-section.in-view::before {
+  opacity: 0.5;
+}
+
+/* Smooth Section Transitions */
+.jv-ops__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--sp-6);
+  animation: fadeInUp 0.8s var(--ease-out);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Link Hover States */
+.jv-op-card a {
+  position: relative;
+  transition: color 0.3s var(--ease-out);
+}
+
+.jv-op-card a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--clr-red);
+  transition: width 0.3s var(--ease-out);
+}
+
+.jv-op-card a:hover::after {
+  width: 100%;
+}
+
+/* ============================================================
+   MAGNETIC BUTTON EFFECT
+   ============================================================ */
+
+@keyframes magneticPulse {
+  0%, 100% { box-shadow: 0 0 0px rgba(232, 48, 48, 0); }
+  50% { box-shadow: 0 0 20px rgba(232, 48, 48, 0.5); }
+}
+
+.jv-btn--primary:hover,
+.jv-btn--ghost:hover {
+  animation: magneticPulse 1.5s ease-in-out;
+}
+
+/* ============================================================
+   ADVANCED ANIMATIONS
+   ============================================================ */
+
+/* Float Animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.jv-op-card:hover {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Rainbow Border Animation on hover */
+@keyframes borderShine {
+  0% { border-color: var(--clr-red); }
+  25% { border-color: var(--clr-red-bright); }
+  50% { border-color: var(--clr-red); }
+  75% { border-color: var(--clr-red-bright); }
+  100% { border-color: var(--clr-red); }
+}
+
+.jv-op-card:hover {
+  animation: float 3s ease-in-out infinite;
+  border: 1px solid transparent;
+  background-image: 
+    linear-gradient(var(--clr-surface-3), var(--clr-surface-3)),
+    linear-gradient(135deg, rgba(232, 48, 48, 0.3), rgba(232, 48, 48, 0.1), rgba(232, 48, 48, 0.3));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+/* Badge Pulse */
+.jv-op-badge {
+  transition: all 0.3s var(--ease-out);
+  animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+
+.jv-op-card:hover .jv-op-badge {
+  animation: badgePulse 1s ease-in-out infinite;
+}
+
+/* ============================================================
+   RESPONSIVE & PERFORMANCE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .jv-op-card {
+    perspective: none;
+  }
+  
+  .jv-op-card:hover {
+    transform: translateY(-4px) scale(1.01);
+  }
+  
+  .jv-cursor-blob {
+    display: none;
+  }
+  
+  body {
+    cursor: auto;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
