@@ -4,6 +4,7 @@ Development notes, research, and planning entries.
 
 ## Log
 
+- [2026-09-21] researched adding testimonial section with structured data markup
 - [2026-08-15] explored dynamic OG image generation using @vercel/og
 - [2026-08-10] planned resume PDF download with click analytics via Umami
 - [2026-08-05] researched adding GitHub contribution stats widget to home section
