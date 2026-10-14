@@ -4,6 +4,7 @@ Development notes, research, and planning entries.
 
 ## Log
 
+- [2026-10-14] noted loading skeleton pattern needed for projects grid on slow connections
 - [2026-09-23] noted mobile nav UX issues on 375px — hamburger z-index conflict
 - [2026-09-21] researched adding testimonial section with structured data markup
 - [2026-09-21] researched adding testimonial section with structured data markup
