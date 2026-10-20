@@ -4,6 +4,7 @@ Development notes, research, and planning entries.
 
 ## Log
 
+- [2026-10-20] noted mobile nav UX issues on 375px — hamburger z-index conflict
 - [2026-10-18] updated project scope notes to include measurable outcome metrics
 - [2026-10-15] reviewed font pairing — switching body to Inter for readability
 - [2026-10-14] noted loading skeleton pattern needed for projects grid on slow connections
