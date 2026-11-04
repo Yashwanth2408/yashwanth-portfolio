@@ -5,6 +5,7 @@ Development notes, research, and planning entries.
 ## Log
 
 - [2026-11-04] explored dynamic OG image generation using @vercel/og
+- [2026-11-04] explored dynamic OG image generation using @vercel/og
 - [2026-10-21] planned consolidating project data into a single typed JSON config
 - [2026-10-20] noted mobile nav UX issues on 375px — hamburger z-index conflict
 - [2026-10-18] updated project scope notes to include measurable outcome metrics
