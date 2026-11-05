@@ -4,6 +4,7 @@ Development notes, research, and planning entries.
 
 ## Log
 
+- [2026-11-05] researched adding GitHub contribution stats widget to home section
 - [2026-11-04] explored dynamic OG image generation using @vercel/og
 - [2026-11-04] explored dynamic OG image generation using @vercel/og
 - [2026-10-21] planned consolidating project data into a single typed JSON config
